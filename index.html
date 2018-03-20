@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html class="no-js" lang="ru">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<title>Income Calculator</title>
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link href="favicon.ico" rel="icon" type="image/x-icon">
+		<link href="assets/css/app.min.css" rel="stylesheet">
+	</head>
+	<body class="page page_home">
+		<div class="page__wrapper">
+			<div class="page__header">
+			</div>
+			<div class="page__main">
+				<div class="container" style="padding-top: 50px; padding-bottom: 50px;">
+					<div class="calculator" id="calculator" v-cloak="v-cloak">
+						<form class="calculator__form" action="#">
+							<div class="calculator__content">
+								<div class="calculator__controls">
+									<div class="calculator__control">
+										<div class="calculator__legend">Сколько вы хотите получать в год?
+										</div>
+										<div class="calculator__value"><span class="calculator__value-text">{{ controls.incomePlan.value | formatPrice }}</span><span class="calculator__value-unit"> руб</span>
+										</div>
+										<range-input name="income-plan" :min="controls.incomePlan.min" :max="controls.incomePlan.max" :range="controls.incomePlan.makeRange()" :step="controls.incomePlan.step" v-model="controls.incomePlan.value"></range-input>
+									</div>
+									<div class="calculator__control">
+										<div class="calculator__legend">Инвестиции
+										</div>
+										<div class="calculator__value"><span class="calculator__value-text">{{ investments | formatPrice }}</span><span class="calculator__value-unit"> руб</span>
+										</div>
+									</div>
+									<div class="calculator__control">
+										<div class="calculator__legend">Срок инвестирования
+										</div>
+										<div class="calculator__value"><span class="calculator__value-text">{{ controls.period.value }}</span><span class="calculator__value-unit"> {{ declOfNum(controls.period.value, ['год', 'года', 'лет']) }}</span>
+										</div>
+										<range-input name="period" :min="controls.period.min" :max="controls.period.max" :step="controls.period.step" v-model="controls.period.value" ref="period"></range-input>
+									</div>
+									<div class="calculator__control">
+										<div class="calculator__legend">Доходность фонда % в год
+										</div>
+										<div class="calculator__value"><span class="calculator__value-text">{{ controls.annualYield.value }}%</span>
+										</div>
+										<range-input name="annual-yield" :min="controls.annualYield.min" :max="controls.annualYield.max" :step="controls.annualYield.step" v-model="controls.annualYield.value"></range-input>
+									</div>
+								</div>
+								<div class="calculator__result">
+									<div class="calculator__total">
+										<div class="calculator__total-legend">Доход за срок инвестированя
+										</div>
+										<div class="calculator__total-price"><span class="calculator__total-value">{{ totalIncome | formatPrice }}</span><span class="calculator__total-cur"> руб</span>
+										</div>
+									</div>
+									<chart :options="chartOptions" :series="series"></chart>
+								</div>
+							</div>
+						</form>
+					</div>
+					<script id="range-input-template" type="text/template">
+						<label class="range-input"><input class="range-input__control" type="range" :name="name" :min="min" :max="max" :step="step" :value="value" @input="updateValue($event.target.value)" ref="control" :style="inputStyleObj"/><span class="range-input__slider" ref="slider"></span>
+						</label>
+					</script>
+				</div>
+			</div>
+			<div class="page__footer">
+			</div>
+		</div>
+		<script src="assets/js/app.min.js"></script>
+	</body>
+</html>
